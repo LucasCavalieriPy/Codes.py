@@ -1,0 +1,34 @@
+# LucasPy
+
+import sqlite3
+
+banco = sqlite3.connect ("ind.db")
+
+cursor = banco.cursor()
+
+def criar_banco():
+	cursor.execute ("CREATE TABLE IF NOT EXISTS indentidade (id integer PRIMARY KEY AUTOINCREMENT, nome VARCHAR(50), cpf  VARCHAR(12))")
+
+onoff = True
+while onoff == True:
+	v_nome = input("nome: ")
+	if v_nome.isdigit():
+		print("Apenas letras no campo NOME")
+	else:
+		onoff = False
+onoff = True
+while onoff == True:
+	v_cpf = input("cpf: ")
+	if not v_cpf.isdigit() or len(v_cpf) != 11:
+		print("CPF Invalido! verifique se esta tudo correto")
+	else:
+		onoff = False
+print('Informacoes salvas com sucesso!')
+
+def adc_dados():
+	cursor.execute ("INSERT INTO indentidade (nome, cpf) VALUES (?,?)",(v_nome,v_cpf))
+
+criar_banco()
+adc_dados()
+
+banco.commit()          
